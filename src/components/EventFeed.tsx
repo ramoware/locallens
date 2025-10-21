@@ -2,8 +2,8 @@
 
 import { useState, useEffect } from 'react';
 import { Event } from '@/db/schema';
-import EventCard from '@/components/EventCard';
-import EventForm from '@/components/EventForm';
+import EventCard from './EventCard';
+import EventForm from './EventForm';
 import { Plus } from 'lucide-react';
 
 export default function EventFeed() {
@@ -30,12 +30,12 @@ export default function EventFeed() {
   };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8">
+    <section id="events-section" className="max-w-7xl mx-auto px-4 py-16">
       {/* Header */}
       <div className="flex justify-between items-center mb-12">
         <div>
-          <h1 className="text-5xl font-bold mb-4">LocalLens</h1>
-          <p className="text-xl opacity-90">Discover hyperlocal events in your community</p>
+          <h2 className="text-4xl font-bold mb-4">Community Events</h2>
+          <p className="text-xl opacity-90">Find and share local happenings</p>
         </div>
         <button
           onClick={() => setIsFormOpen(true)}
@@ -85,6 +85,6 @@ export default function EventFeed() {
         onOpenChange={setIsFormOpen}
         onEventCreated={handleEventCreated}
       />
-    </div>
+    </section>
   );
 }

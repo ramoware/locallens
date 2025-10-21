@@ -1,6 +1,6 @@
 'use client';
 
-import { Dialog } from '@radix-ui/react-dialog';
+import * as Dialog from '@radix-ui/react-dialog';
 import { EventFormData, eventSchema } from '@/lib/validations';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -49,6 +49,7 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
       if (response.ok) {
         reset();
         onEventCreated();
+        onOpenChange(false); // Close modal on success
       } else {
         console.error('Failed to create event');
       }
@@ -60,17 +61,17 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
   };
 
   return (
-    <Dialog open={open} onOpenChange={onOpenChange}>
-      <div className="fixed inset-0 bg-black/70 flex items-center justify-center p-4 z-50">
-        <div className="bg-background rounded-2xl p-6 w-full max-w-md border border-gray-700">
+    <Dialog.Root open={open} onOpenChange={onOpenChange}>
+      <Dialog.Portal>
+        <Dialog.Overlay className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50" />
+        <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-background rounded-2xl p-6 w-full max-w-md border border-gray-700 shadow-2xl z-50">
           <div className="flex justify-between items-center mb-6">
-            <h2 className="text-2xl font-bold">Create New Event</h2>
-            <button
-              onClick={() => onOpenChange(false)}
-              className="text-gray-400 hover:text-white transition-colors"
-            >
-              <X size={24} />
-            </button>
+            <Dialog.Title className="text-2xl font-bold">Create New Event</Dialog.Title>
+            <Dialog.Close asChild>
+              <button className="text-gray-400 hover:text-white transition-colors rounded-full p-1">
+                <X size={24} />
+              </button>
+            </Dialog.Close>
           </div>
           
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
@@ -82,7 +83,7 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
                 type="text"
                 id="title"
                 {...register('title')}
-                className="w-full p-3 rounded-xl bg-gray-900 text-white border border-gray-700 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
                 placeholder="Enter event title"
               />
               {errors.title && (
@@ -98,7 +99,7 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
                 id="description"
                 rows={3}
                 {...register('description')}
-                className="w-full p-3 rounded-xl bg-gray-900 text-white border border-gray-700 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
                 placeholder="Describe your event"
               />
               {errors.description && (
@@ -114,7 +115,7 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
                 type="text"
                 id="location"
                 {...register('location')}
-                className="w-full p-3 rounded-xl bg-gray-900 text-white border border-gray-700 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
                 placeholder="Where is the event?"
               />
               {errors.location && (
@@ -129,7 +130,7 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
               <select
                 id="category"
                 {...register('category')}
-                className="w-full p-3 rounded-xl bg-gray-900 text-white border border-gray-700 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
               >
                 {categories.map((category) => (
                   <option key={category.value} value={category.value}>
@@ -150,7 +151,7 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
                 type="datetime-local"
                 id="date"
                 {...register('date')}
-                className="w-full p-3 rounded-xl bg-gray-900 text-white border border-gray-700 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
               />
               {errors.date && (
                 <p className="text-red-400 text-sm mt-1">{errors.date.message}</p>
@@ -158,13 +159,14 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
             </div>
 
             <div className="flex justify-end space-x-3 pt-4">
-              <button
-                type="button"
-                onClick={() => onOpenChange(false)}
-                className="px-6 py-3 text-sm font-medium text-gray-300 hover:text-white transition-colors"
-              >
-                Cancel
-              </button>
+              <Dialog.Close asChild>
+                <button
+                  type="button"
+                  className="px-6 py-3 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+                >
+                  Cancel
+                </button>
+              </Dialog.Close>
               <button
                 type="submit"
                 disabled={isLoading}
@@ -174,8 +176,8 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
               </button>
             </div>
           </form>
-        </div>
-      </div>
-    </Dialog>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
   );
 }
