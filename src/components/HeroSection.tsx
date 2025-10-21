@@ -14,15 +14,15 @@ export default function HeroSection() {
       <div className="text-center max-w-4xl mx-auto">
         {/* LocalLens Logo with custom LL */}
         <div className="mb-8">
-          <h1 className="text-8xl md:text-9xl font-bold mb-4 tracking-tight">
-            Loca
-            <span className="relative inline-block">
-              <span className="text-accent-purple relative z-10">ll</span>
-              {/* This is where your PNG will go - using a placeholder for now */}
-              <div className="absolute inset-0 bg-accent-yellow rounded-lg transform rotate-6 scale-110 opacity-20"></div>
-            </span>
-            ens
-          </h1>
+          <span className="relative inline-block">
+           <img 
+             src="/locallens-logo.png" 
+             alt="locallens-logo" 
+             className="h-[360px] w-[1280px] inline-block -mb-4 mx-1"
+            />
+          </span>
+
+
           <p className="text-2xl md:text-3xl opacity-90 mb-12">
             Discover Hyperlocal Events in Your Community
           </p>
