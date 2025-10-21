@@ -13,7 +13,7 @@ export async function POST(request: NextRequest) {
     // Validate input
     const validatedData = eventSchema.parse(json);
     
-    // Convert date string to Date object
+    // Convert date string to ISO string
     const eventDate = new Date(validatedData.date).toISOString();
     
     // Insert into database
@@ -80,8 +80,14 @@ export async function PUT(request: NextRequest) {
       );
     }
     
-    // Prepare update values with proper date handling
-    const updateValues: any = {
+    // Prepare update values with proper typing
+    const updateValues: {
+      title: string;
+      description: string;
+      location: string;
+      category: string;
+      date?: string;
+    } = {
       title: validatedData.title,
       description: validatedData.description,
       location: validatedData.location,
