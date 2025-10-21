@@ -49,7 +49,7 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
       if (response.ok) {
         reset();
         onEventCreated();
-        onOpenChange(false); // Close modal on success
+        onOpenChange(false);
       } else {
         console.error('Failed to create event');
       }
@@ -64,7 +64,11 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
     <Dialog.Root open={open} onOpenChange={onOpenChange}>
       <Dialog.Portal>
         <Dialog.Overlay className="fixed inset-0 bg-black/70 backdrop-blur-sm z-50" />
-        <Dialog.Content className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-background rounded-2xl p-6 w-full max-w-md border border-gray-700 shadow-2xl z-50">
+        <Dialog.Content
+          className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 
+          bg-gradient-to-br from-background to-gray-900 rounded-3xl p-8 
+          w-full max-w-md border border-white/10 shadow-2xl z-50 backdrop-blur-sm"
+        >
           <div className="flex justify-between items-center mb-6">
             <Dialog.Title className="text-2xl font-bold">Create New Event</Dialog.Title>
             <Dialog.Close asChild>
@@ -73,7 +77,7 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
               </button>
             </Dialog.Close>
           </div>
-          
+
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
             <div>
               <label htmlFor="title" className="block text-sm font-medium mb-2">
@@ -83,7 +87,9 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
                 type="text"
                 id="title"
                 {...register('title')}
-                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-4 rounded-2xl bg-white/5 text-white border border-white/10 
+                focus:border-accent-purple focus:ring-2 focus:ring-accent-purple/50 
+                transition-all backdrop-blur-sm"
                 placeholder="Enter event title"
               />
               {errors.title && (
@@ -99,7 +105,9 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
                 id="description"
                 rows={3}
                 {...register('description')}
-                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-4 rounded-2xl bg-white/5 text-white border border-white/10 
+                focus:border-accent-purple focus:ring-2 focus:ring-accent-purple/50 
+                transition-all backdrop-blur-sm"
                 placeholder="Describe your event"
               />
               {errors.description && (
@@ -115,7 +123,9 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
                 type="text"
                 id="location"
                 {...register('location')}
-                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-4 rounded-2xl bg-white/5 text-white border border-white/10 
+                focus:border-accent-purple focus:ring-2 focus:ring-accent-purple/50 
+                transition-all backdrop-blur-sm"
                 placeholder="Where is the event?"
               />
               {errors.location && (
@@ -130,7 +140,9 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
               <select
                 id="category"
                 {...register('category')}
-                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-4 rounded-2xl bg-white/5 text-white border border-white/10 
+                focus:border-accent-purple focus:ring-2 focus:ring-accent-purple/50 
+                transition-all backdrop-blur-sm"
               >
                 {categories.map((category) => (
                   <option key={category.value} value={category.value}>
@@ -151,7 +163,9 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
                 type="datetime-local"
                 id="date"
                 {...register('date')}
-                className="w-full p-3 rounded-xl bg-gray-800 text-white border border-gray-600 focus:border-accent-purple focus:ring-2 focus:ring-accent-purple transition-all"
+                className="w-full p-4 rounded-2xl bg-white/5 text-white border border-white/10 
+                focus:border-accent-purple focus:ring-2 focus:ring-accent-purple/50 
+                transition-all backdrop-blur-sm"
               />
               {errors.date && (
                 <p className="text-red-400 text-sm mt-1">{errors.date.message}</p>
@@ -170,7 +184,8 @@ export default function EventForm({ open, onOpenChange, onEventCreated }: EventF
               <button
                 type="submit"
                 disabled={isLoading}
-                className="bg-accent-purple text-card-text px-6 py-3 rounded-xl font-semibold disabled:opacity-50 hover:scale-105 transform transition-all duration-300"
+                className="bg-accent-purple text-card-text px-6 py-3 rounded-xl font-semibold 
+                disabled:opacity-50 hover:scale-105 transform transition-all duration-300"
               >
                 {isLoading ? 'Creating...' : 'Create Event'}
               </button>
